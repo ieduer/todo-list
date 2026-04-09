@@ -96,6 +96,7 @@
         <!-- Vue 2.x Todo List -->
         <!-- <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script> -->
         <script src="public/js/vue.js"></script>
+        <script src="https://my.bdfz.net/site-auth.js"></script>
     </head>
 
     <body>
@@ -457,6 +458,34 @@
             }
         </script>
         <script>
+            const TODO_SITE_KEY = 'todo';
+
+            function getTodoIdentity() {
+                return window.BdfzIdentity || null;
+            }
+
+            function mountTodoIdentity() {
+                getTodoIdentity()?.mount({ siteKey: TODO_SITE_KEY });
+            }
+
+            function syncTodoProgress(todo, completed = true, state = 'done') {
+                if (!todo) return;
+                getTodoIdentity()?.syncProgress({
+                    siteKey: TODO_SITE_KEY,
+                    itemKey: `todo-${todo.id}`,
+                    itemTitle: todo.title || 'Todo',
+                    itemGroup: '待办',
+                    itemType: 'todo',
+                    state: state,
+                    completed: completed,
+                    progressPercent: completed ? (state === 'done' ? 100 : 40) : 0,
+                    meta: {
+                        removed: !!todo.removed
+                    }
+                }).catch(() => {});
+            }
+
+            mountTodoIdentity();
             // Vue instance initialization
             var app = new Vue({
                 el: '#todo-app',
@@ -536,27 +565,34 @@
                             this.checkEmpty = true;
                             return;
                         }
-                        this.todos.unshift({
+                        const todo = {
                             id: todoStorage.uid++,
                             title: this.newTodoTitle,
                             completed: false,
                             removed: false
-                        });
+                        };
+                        this.todos.unshift(todo);
+                        syncTodoProgress(todo, true, 'in_progress');
                         this.newTodoTitle = '';
                         this.checkEmpty = false;
                         this.delayTime = '0';
                     },
                     markAsCompleted: function(todo) {
                         todo.completed = true;
+                        syncTodoProgress(todo, true, 'done');
                     },
                     markAsUncompleted: function(todo) {
                         todo.completed = false;
+                        syncTodoProgress(todo, true, 'in_progress');
                     },
                     markAllAsCompleted: function() {
                         confirm('Confirm to mark all as completed?').then((confirmed) => {
                             if (confirmed) {
                                 this.todos.map(function(todo) {
-                                    if (!todo.completed) todo.completed = true;
+                                    if (!todo.completed) {
+                                        todo.completed = true;
+                                        syncTodoProgress(todo, true, 'done');
+                                    }
                                 });
                             }
                         }); 
@@ -566,12 +602,14 @@
                         let removedTodo = this.todos.splice(this.todos.indexOf(todo), 1)[0];
                         removedTodo.removed = true;
                         this.recycleBin.unshift(removedTodo);
+                        syncTodoProgress(removedTodo, false, 'removed');
                     },
                     restoreTodo: function(todo) {
                         todo.removed = false;
                         this.todos.unshift(todo);
                         let pos = this.recycleBin.indexOf(todo);
                         this.recycleBin.splice(pos, 1);
+                        syncTodoProgress(todo, true, todo.completed ? 'done' : 'in_progress');
                     },
                     editdTodo: function(todo) {
                         this.editedTodo = {
@@ -587,12 +625,14 @@
                                 this.checkEmpty = true;
                                 return;
                             }
-                            this.todos.unshift({
+                            const todo = {
                                 id: todoStorage.uid++,
                                 title: this.newTodoTitle,
                                 completed: false,
                                 removed: false
-                            });
+                            };
+                            this.todos.unshift(todo);
+                            syncTodoProgress(todo, true, 'in_progress');
                             this.newTodoTitle = '';
                             this.checkEmpty = false;
                             this.delayTime = '0';
@@ -611,7 +651,10 @@
                     clearCompleted: function() {
                         confirm('Confirm to clear all completed items?').then((confirmed) => {
                             if (confirmed) {
-                                this.completedTodos.map(todo => todo.removed = true);
+                                this.completedTodos.map(todo => {
+                                    todo.removed = true;
+                                    syncTodoProgress(todo, false, 'removed');
+                                });
                                 this.recycleBin.unshift(...this.completedTodos);
                                 this.todos = this.leftTodos;
                             }
@@ -620,7 +663,10 @@
                     clearAll: function() {
                         confirm('Confirm to clear all todo items?').then((confirmed) => {
                             if (confirmed) {
-                                this.todos.map(todo => todo.removed = true);
+                                this.todos.map(todo => {
+                                    todo.removed = true;
+                                    syncTodoProgress(todo, false, 'removed');
+                                });
                                 this.recycleBin.unshift(...this.todos);
                                 this.todos = [];
                             }
