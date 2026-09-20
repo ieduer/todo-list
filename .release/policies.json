@@ -1,0 +1,50 @@
+{
+  "schema_version": 1,
+  "guard_source": "ieduer/cf-ops-scripts@6aef139c359a50c38b5ac3d2522a481540a3daab",
+  "targets": [
+    {
+      "schema_version": 1,
+      "target": "todo-list",
+      "repository": "https://github.com/ieduer/todo-list",
+      "branch": "main",
+      "origin": "https://todo-list-dgb.pages.dev",
+      "baseline_commit": "c789947e74e35de762965477a8c5187e5bb95e8b",
+      "source_root": "",
+      "output": ".release-output/todo-list",
+      "stage_tracked_static": true,
+      "build_command": "",
+      "required_paths": [
+        "index.html"
+      ],
+      "required_artifacts": [
+        "index.html"
+      ],
+      "checks": [],
+      "bootstrap": {
+        "deployment_id": "d11da66f-c8f9-4f10-ba53-9583c5d311f0",
+        "fingerprints": [
+          {
+            "path": "/",
+            "artifact": "index.html",
+            "sha256": "930b7c7f25e6aef6cd1e47a16e8c979ff51081bfa283835d6a64355b48196c0c"
+          },
+          {
+            "path": "/public/css/normalize.css",
+            "artifact": "public/css/normalize.css",
+            "sha256": "792731f7a807052548e313cc6428bb435d8a77a2035bafe42215f9082e7d85cc"
+          },
+          {
+            "path": "/public/css/style.min.css",
+            "artifact": "public/css/style.min.css",
+            "sha256": "3c9de683f95db77a57a530e19f7a47f6944b3d0cea0d68d294700d6747fd38df"
+          },
+          {
+            "path": "/public/js/vue.js",
+            "artifact": "public/js/vue.js",
+            "sha256": "159f0ac0c8f517aaa736003b6e13ebc959b5f7129db87e4e56bf2eec8d6d02d7"
+          }
+        ]
+      }
+    }
+  ]
+}
