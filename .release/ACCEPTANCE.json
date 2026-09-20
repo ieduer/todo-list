@@ -1,0 +1,16 @@
+{
+  "at": "2026-09-20T05:58:43.192Z",
+  "scope": "release-channel control acceptance; project product/data acceptance remains distinct",
+  "repository": "ieduer/todo-list",
+  "branch": "main",
+  "targets": [
+    {
+      "target": "todo-list",
+      "mode": "guarded_automatic",
+      "deployment": "db4855f2-da94-407f-b501-11ba5a8bf2b5",
+      "source_commit": "69b12ac9d12a942e5739636259599bd4673b199b",
+      "artifacts": 28,
+      "policy_file": ".release/policies.json"
+    }
+  ]
+}
