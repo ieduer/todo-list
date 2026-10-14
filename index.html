@@ -96,7 +96,8 @@
         <!-- Vue 2.x Todo List -->
         <!-- <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script> -->
         <script src="public/js/vue.js"></script>
-        <script src="https://my.bdfz.net/site-auth.js"></script>
+        <script src="public/js/site-config.js"></script>
+        <script src="public/js/todo-identity.js"></script>
     </head>
 
     <body>
@@ -458,20 +459,19 @@
             }
         </script>
         <script>
-            const TODO_SITE_KEY = 'todo';
+            // Optional integration is configured in public/js/site-config.js.
 
             function getTodoIdentity() {
-                return window.BdfzIdentity || null;
+                return window.TodoIdentity || null;
             }
 
             function mountTodoIdentity() {
-                getTodoIdentity()?.mount({ siteKey: TODO_SITE_KEY });
+                getTodoIdentity()?.mount();
             }
 
             function syncTodoProgress(todo, completed = true, state = 'done') {
                 if (!todo) return;
                 getTodoIdentity()?.syncProgress({
-                    siteKey: TODO_SITE_KEY,
                     itemKey: `todo-${todo.id}`,
                     itemTitle: todo.title || 'Todo',
                     itemGroup: '待办',

@@ -1,3 +1,10 @@
+# Local optional identity candidate — 2026-10-14
+
+The [integration guide](IDENTITY_INTEGRATION.md) describes the default-off bridge,
+explicit provider configuration, mocked regression tests and migration for
+existing operators. No production setting or publication changed. Preserve the
+existing governed publishing channel and obtain release approval before any
+push that could publish. Private audit evidence is outside this public repository.
 
 
 ## Governed automatic release — 2026-09-20

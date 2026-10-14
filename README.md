@@ -1,5 +1,10 @@
 # Uiineed Todo List 介绍
 
+Identity and task synchronization are **disabled by default**. Both language
+pages keep local task storage independent of any identity service. Operators
+can explicitly configure their own compatible provider using the
+[integration and migration guide](docs/IDENTITY_INTEGRATION.md).
+
 [📍 English Intro Click Here](#intro)
 
 <img src="public/img/ricocc/preview-uiineed-todo-list-zh.jpg" alt="ricocc-wechat" width="640" height="auto" style="border-radius:12px;display:inline-block;margin:12px;">

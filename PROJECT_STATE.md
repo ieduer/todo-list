@@ -1,3 +1,10 @@
+# Local optional identity candidate — 2026-10-14
+
+Both language pages now disable identity and task synchronization unless a valid
+explicit configuration is supplied. Local task behavior remains independent.
+No production publication or setting changed. Existing operators must review
+the [integration migration](docs/IDENTITY_INTEGRATION.md) before rollout;
+historical release receipts below are not new runtime verification.
 
 
 ## Governed automatic release — 2026-09-20
