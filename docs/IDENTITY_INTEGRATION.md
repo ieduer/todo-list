@@ -48,3 +48,27 @@ coverage. No service calls occur in these tests. Publishing remains subject to
 the repository's existing release gate and separate approval; this candidate
 changes no production setting. For rollback, preserve local task data and review
 the previous script's synchronization behavior before restoring a deployment.
+
+## Deployment-only configuration
+
+The governed static build uses `scripts/build-static.mjs`. It copies the same
+eligible tracked assets as the existing release guard and writes identity settings
+only into `.release-output/todo-list/public/js/site-config.js`. The tracked source
+configuration remains disabled. The unchanged guard then hashes this output and
+writes provenance, so configuration is bound to the deployed artifact.
+
+On Pages set an explicit `TODO_IDENTITY_ENABLED` (`1` to enable, `0` to disable).
+When enabled, also set `TODO_IDENTITY_ORIGIN` to the existing authorized HTTPS
+identity origin and `TODO_IDENTITY_SITE_KEY` to its registered site key. These are
+public settings, not secrets. Missing or invalid deployment settings fail the
+build before changing the live site. An ordinary local build without settings
+remains disabled. No cookie, user data or credential is compiled into the site.
+
+The provider's build command pins the per-project policy checksum. Changing the
+policy requires updating that pin through the registered governance process;
+the guard checksum, source checks, target, production branch, output path and
+provenance checks remain unchanged. Do not append an unverified post-build edit.
+
+Run `node --test tests/identity-integration.test.mjs tests/static-build.test.mjs`.
+The build tests cover configuration validation, unchanged source, eligible asset
+selection, refusal of symlinks and existing outputs, and an explicit Pages choice.

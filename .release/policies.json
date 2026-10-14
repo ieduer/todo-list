@@ -11,15 +11,29 @@
       "baseline_commit": "c789947e74e35de762965477a8c5187e5bb95e8b",
       "source_root": "",
       "output": ".release-output/todo-list",
-      "stage_tracked_static": true,
-      "build_command": "",
+      "stage_tracked_static": false,
+      "build_command": "node scripts/build-static.mjs",
       "required_paths": [
-        "index.html"
+        "index.html",
+        "index-zh.html",
+        "public/js/site-config.js",
+        "public/js/todo-identity.js",
+        "scripts/build-static.mjs"
       ],
       "required_artifacts": [
-        "index.html"
+        "index.html",
+        "index-zh.html",
+        "public/js/site-config.js",
+        "public/js/todo-identity.js"
       ],
-      "checks": [],
+      "checks": [
+        [
+          "node",
+          "--test",
+          "tests/identity-integration.test.mjs",
+          "tests/static-build.test.mjs"
+        ]
+      ],
       "bootstrap": {
         "deployment_id": "d11da66f-c8f9-4f10-ba53-9583c5d311f0",
         "fingerprints": [

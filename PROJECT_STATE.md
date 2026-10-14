@@ -1,3 +1,14 @@
+## Deployment configuration follow-up — 2026-10-14
+
+The owner selected preservation of login and task synchronization. The candidate
+adds a deployment-only static builder and per-project policy invocation. Public
+source defaults remain disabled; operator identity origin/site key are supplied
+through the existing Pages environment and appear only in the hashed artifact.
+No shared guard implementation, identity provider contract or task storage changes.
+Ten local regression/build tests pass. Source publication, provider pin/config
+readback and rendered acceptance are recorded separately; local tests alone do
+not claim production rollout. See [identity integration](docs/IDENTITY_INTEGRATION.md).
+
 # Local optional identity candidate — 2026-10-14
 
 Both language pages now disable identity and task synchronization unless a valid
