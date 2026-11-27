@@ -18,7 +18,11 @@
         const languageCode = browserLanguage.split('-')[0].toLowerCase();
         if (!localStorage.getItem('uiineed-todos-lang')) localStorage.setItem('uiineed-todos-lang', languageCode);
         const userLanguage = localStorage.getItem('uiineed-todos-lang');
-        if (userLanguage && userLanguage !== "zh") window.location.href = (window.location.pathname === "/") ? 'index.html' : window.location.href.replace('index-zh.html', 'index.html');
+        if (userLanguage && userLanguage !== "zh") {
+            // Pages serves this file as /index-zh too: match both spellings and never "redirect" to the same path (that reloaded forever).
+            const here = window.location.pathname, there = here === "/" ? "/index.html" : here.replace(/index-zh(\.html)?$/, "index.html");
+            if (there !== here) window.location.replace(there + window.location.search + window.location.hash);
+        }
     </script>
     <script>
         // 保存原生alert备用
