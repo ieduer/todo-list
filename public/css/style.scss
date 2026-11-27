@@ -1431,3 +1431,16 @@ span.shortcut-name{
         transform: scale3d(0.3, 0.3, 0.3)
     }
 }
+
+/* 2026-11-26 phone overflow fix: on narrow phones the swinging pendulum beside the title reaches past
+   the right edge mid-swing, and the fixed side bar sat 2px past it; either widened the page. */
+@media only screen and (max-width: 768px) {
+  .todo-wrapper {
+    overflow-x: hidden;
+    overflow-x: clip;
+  }
+  .side-bar {
+    right: 0;
+    border-right: 0;
+  }
+}
